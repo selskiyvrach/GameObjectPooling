@@ -11,6 +11,8 @@ public class ObjectPool<T> where T: Component
     // TRACKERS
     private static int _poolsCreated;
 
+// CONSTRUCTOR
+
     public ObjectPool(T sample, int quantity)
     {
         // VALIDATION
@@ -38,6 +40,8 @@ public class ObjectPool<T> where T: Component
         Prewarm(quantity);
     }
 
+// PUBLIC
+
     public T Pop()
     {
         if(_pool.Count == 0)
@@ -54,9 +58,6 @@ public class ObjectPool<T> where T: Component
             GetNewItem(_sample);
     }
 
-    public void ReturnItem(T item)
-        => PutIntoPool(item);
-
     public void ClearPool()
     {
         foreach(var i in _pool)
@@ -69,6 +70,13 @@ public class ObjectPool<T> where T: Component
         ClearPool();
         GameObject.Destroy(_poolParent);
     }
+
+// USED BY POOLITEM. YOU DO NOT HAVE TO USE IT
+
+    public void ReturnItem(T item)
+        => PutIntoPool(item);
+
+// PRIVATE
 
     private T GetNewItem(T sample)
     {
