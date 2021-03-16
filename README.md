@@ -27,9 +27,12 @@ Features
 
 API
     - call GetPool to get fresh new pool of requested GameObject copies of requested quantity
+    
     - call ClearPool to destroy all it's items
+    
     - call DestroyPool to clear this pool and also destroy it's parent object
-    - get PoolItem component on a pool item you don't need anymore and call ReturnToPool on it. 
+    
+    - get PoolItem component on a pool item you don't need anymore and call ReturnToPool on it
       Item will autonavigate to the pool it belongs to or if failed will destroy itself
 
 Have fun! Ivan Kryuchkov
