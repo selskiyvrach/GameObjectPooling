@@ -27,7 +27,7 @@ Features
 
 API
 
-    - call GetPool to get fresh new pool of requested GameObject copies of requested quantity
+    - call GetPool to get fresh new pool of requested game object copies of requested quantity
     
     - call ClearPool to destroy all it's items
     
