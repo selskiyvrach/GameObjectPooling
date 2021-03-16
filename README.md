@@ -26,6 +26,7 @@ Features
     - further hierarchy cleaniness - if failed to return to pool, pool item destroys itself
 
 API
+
     - call GetPool to get fresh new pool of requested GameObject copies of requested quantity
     
     - call ClearPool to destroy all it's items
