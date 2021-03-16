@@ -57,6 +57,19 @@ public class ObjectPool<T> where T: Component
     public void ReturnItem(T item)
         => PutIntoPool(item);
 
+    public void ClearPool()
+    {
+        foreach(var i in _pool)
+            GameObject.Destroy(i.gameObject);
+        _pool.Clear();
+    }
+
+    public void DestroyPool()
+    {
+        ClearPool();
+        GameObject.Destroy(_poolParent);
+    }
+
     private T GetNewItem(T sample)
     {
         var i = GameObject.Instantiate(sample);
