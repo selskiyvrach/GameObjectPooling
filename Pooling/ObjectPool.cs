@@ -27,7 +27,7 @@ public class ObjectPool<T> where T: Component
         }
         if (failed) 
         {
-            Debug.LogError("You shouldn't create Monobehaviour subtypes via contructor! Use gameObject.AddComponent instead");
+            Debug.LogError("You shouldn't create MonobeHaviour subtypes via contructor! Use gameObject.AddComponent instead");
             return;
         }
         quantity = Mathf.Max(quantity, 0); // ENDVAL
