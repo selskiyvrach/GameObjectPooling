@@ -16,13 +16,10 @@ Features
     - clear runtime hierarcy appearance. 
         all pools' names consist from pool's order of creation appended with 
         the type's name upon which this pool instance was created.
-    - API-safety. 
-        pool's constructor is private. pool exposes GetPool method instead
     - error-safety. 
-        GetPool's parameter 'Sample' is being checked for not having gameObject
+        Constructor's parameter 'Sample' is being checked for not having gameObject
         property - a case, where MonoBehaviour subtype instance is being created via class 
         constructor by mistake.
-    - pool can be prewarmed with initial quantity and grows upon running out of items
     - further hierarchy cleaniness - if failed to return to pool, pool item destroys itself
 
 API
