@@ -7,18 +7,8 @@ public class PoolItem : MonoBehaviour
 
     public void ReturnToPool()
     {
-        bool failed = false;
-        if(OnReturnRequested == null)
-            failed = true;
-        
-        if(!failed)
-        {
-            try { OnReturnRequested.Invoke(); }
-            catch (Exception) { failed = true; }
-
-        }
-        if(failed)
-            Destroy(gameObject);
+        try { OnReturnRequested.Invoke(); }
+        catch { Destroy(gameObject); }
     }
 
     public void ResetEvent()
