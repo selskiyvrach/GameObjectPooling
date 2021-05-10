@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 ///<summary>
-///Creates a pool of requested GameObject clones</summary>
+///Creates a pool of requested gameObject clones</summary>
 public class ObjectPool<T> where T: Component
 {
     private Stack<T> _pool = new Stack<T>();
@@ -11,23 +11,26 @@ public class ObjectPool<T> where T: Component
     private Transform _poolParent;
     
     // TRACKERS
+    // for hierarchy naming
     private static int _poolsCreated = -1;
 
+    ///<summary>
+    ///Creates a pool of requested gameObject clones with requested quantity, <br/> 
+    ///cpecial name might be provided for cleaner hierarchy</summary>
     public ObjectPool(T sample, int quantity, string specName = null)
     {
         // VALIDATION
-        if(sample == null) { Debug.LogError("Cannot create pool of a null object"); return; }
+        if(sample == null) { Debug.LogError("Cannot create a pool of null objects"); return; }
         quantity = Mathf.Max(quantity, 0); 
         try 
         { 
-            // this call will throw an exception itself when trying to access "gameObject" field
-            // of a MonoBehaviour that was created via constructor. if gO is null - throw too for double-check
+            // checks if the class instance was created via constructor and thereby missing MonoBehaviour related references
             if(((Component)sample).gameObject == null)
                 throw new Exception();
         }
         catch (Exception) 
         { 
-            Debug.LogError("You shouldn't create MonoBehaviour subtypes via contructor! Use gameObject.AddComponent instead");
+            Debug.LogError("You shouldn't create MonoBehaviour subtypes via contructor! Use AddComponent or Instantiate instead");
             return;
         }
         // ENDVAL
@@ -36,6 +39,8 @@ public class ObjectPool<T> where T: Component
         // TODO: figure out why Image's ReflectedType call throws null reference exc
         string specialName = specName == null ? $"of {sample.GetType().ToString()}'s" : specName;
         _poolParent = new GameObject($"Pool {number} {specialName}").transform;
+
+        // master object for all pools. get's created via non-generic class since different T realizations don't share static fields
         _poolParent.SetParent(PoolingMasterObject.PoolingParent.transform);
 
         _sample = GetNewItem(sample);
@@ -43,6 +48,7 @@ public class ObjectPool<T> where T: Component
         Prewarm(quantity);
     }
 
+    // returns an intem from pool
     public T Pop()
     {
         if(_pool.Count == 0)
@@ -53,12 +59,14 @@ public class ObjectPool<T> where T: Component
         return i;
     }
     
+    // generater new instances of a pooled sample
     public void Prewarm(int quantity)
     {
         for(int i = 0; i < quantity; i++)
             GetNewItem(_sample);
     }
 
+    // use this or GetComponent<PoolItem>.ReturnToPool on an item you want to return 
     public void ReturnItem(T item)
         => PutIntoPool(item);
 
@@ -95,6 +103,7 @@ public class ObjectPool<T> where T: Component
         _pool.Push(item);
     }
 
+    // adds a PoolItem class which ReturnToPool method might be used by a comsumer if it doesn't have a pool reference
     private void SetUpPoolItem(T item)
     {
         var pI = item.GetComponent<PoolItem>();
